@@ -48,6 +48,19 @@ func (k Keeper) GetUser(ctx sdk.Context, userid string) (types.User, error) {
 	return user, nil
 }
 
+func (k Keeper) Delete(ctx sdk.Context, userid string) string {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte(types.UserKey))
+
+	byteKey := make([]byte, 8)
+	userId, _ := strconv.ParseUint(userid, 0, 64)
+	binary.BigEndian.PutUint64(byteKey, userId)
+
+	store.Delete(byteKey)
+
+	return "Deleted successfully"
+
+}
+
 func (k Keeper) GetUserCount(ctx sdk.Context) uint64 {
 	// Get the store using storeKey (which is "blog") and PostCountKey (which is "Post-count-")
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte(types.UserCountKey))

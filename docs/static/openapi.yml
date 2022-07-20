@@ -51728,6 +51728,8 @@ definitions:
       userid:
         type: string
         format: uint64
+  org.org.MsgDeleteUserResponse:
+    type: object
   org.org.Params:
     type: object
     description: Params defines the parameters for the module.

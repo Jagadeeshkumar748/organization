@@ -14,6 +14,8 @@ export interface OrgMsgCreateUserResponse {
   userid?: string;
 }
 
+export type OrgMsgDeleteUserResponse = object;
+
 /**
  * Params defines the parameters for the module.
  */

@@ -14,6 +14,13 @@ export interface MsgCreateUserResponse {
   userid: number;
 }
 
+export interface MsgDeleteUser {
+  creator: string;
+  userid: string;
+}
+
+export interface MsgDeleteUserResponse {}
+
 const baseMsgCreateUser: object = { creator: "", name: "", email: "" };
 
 export const MsgCreateUser = {
@@ -163,10 +170,121 @@ export const MsgCreateUserResponse = {
   },
 };
 
+const baseMsgDeleteUser: object = { creator: "", userid: "" };
+
+export const MsgDeleteUser = {
+  encode(message: MsgDeleteUser, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.userid !== "") {
+      writer.uint32(18).string(message.userid);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgDeleteUser {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgDeleteUser } as MsgDeleteUser;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.userid = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgDeleteUser {
+    const message = { ...baseMsgDeleteUser } as MsgDeleteUser;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.userid !== undefined && object.userid !== null) {
+      message.userid = String(object.userid);
+    } else {
+      message.userid = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgDeleteUser): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.userid !== undefined && (obj.userid = message.userid);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgDeleteUser>): MsgDeleteUser {
+    const message = { ...baseMsgDeleteUser } as MsgDeleteUser;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.userid !== undefined && object.userid !== null) {
+      message.userid = object.userid;
+    } else {
+      message.userid = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgDeleteUserResponse: object = {};
+
+export const MsgDeleteUserResponse = {
+  encode(_: MsgDeleteUserResponse, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgDeleteUserResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgDeleteUserResponse } as MsgDeleteUserResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgDeleteUserResponse {
+    const message = { ...baseMsgDeleteUserResponse } as MsgDeleteUserResponse;
+    return message;
+  },
+
+  toJSON(_: MsgDeleteUserResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: DeepPartial<MsgDeleteUserResponse>): MsgDeleteUserResponse {
+    const message = { ...baseMsgDeleteUserResponse } as MsgDeleteUserResponse;
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   CreateUser(request: MsgCreateUser): Promise<MsgCreateUserResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  DeleteUser(request: MsgDeleteUser): Promise<MsgDeleteUserResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -179,6 +297,14 @@ export class MsgClientImpl implements Msg {
     const promise = this.rpc.request("org.org.Msg", "CreateUser", data);
     return promise.then((data) =>
       MsgCreateUserResponse.decode(new Reader(data))
+    );
+  }
+
+  DeleteUser(request: MsgDeleteUser): Promise<MsgDeleteUserResponse> {
+    const data = MsgDeleteUser.encode(request).finish();
+    const promise = this.rpc.request("org.org.Msg", "DeleteUser", data);
+    return promise.then((data) =>
+      MsgDeleteUserResponse.decode(new Reader(data))
     );
   }
 }

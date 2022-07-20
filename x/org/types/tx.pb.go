@@ -131,15 +131,105 @@ func (m *MsgCreateUserResponse) GetUserid() uint64 {
 	return 0
 }
 
+type MsgDeleteUser struct {
+	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	Userid  string `protobuf:"bytes,2,opt,name=userid,proto3" json:"userid,omitempty"`
+}
+
+func (m *MsgDeleteUser) Reset()         { *m = MsgDeleteUser{} }
+func (m *MsgDeleteUser) String() string { return proto.CompactTextString(m) }
+func (*MsgDeleteUser) ProtoMessage()    {}
+func (*MsgDeleteUser) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1e0f841f6ce8f8ad, []int{2}
+}
+func (m *MsgDeleteUser) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgDeleteUser) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgDeleteUser.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgDeleteUser) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgDeleteUser.Merge(m, src)
+}
+func (m *MsgDeleteUser) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgDeleteUser) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgDeleteUser.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgDeleteUser proto.InternalMessageInfo
+
+func (m *MsgDeleteUser) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgDeleteUser) GetUserid() string {
+	if m != nil {
+		return m.Userid
+	}
+	return ""
+}
+
+type MsgDeleteUserResponse struct {
+}
+
+func (m *MsgDeleteUserResponse) Reset()         { *m = MsgDeleteUserResponse{} }
+func (m *MsgDeleteUserResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgDeleteUserResponse) ProtoMessage()    {}
+func (*MsgDeleteUserResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1e0f841f6ce8f8ad, []int{3}
+}
+func (m *MsgDeleteUserResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgDeleteUserResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgDeleteUserResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgDeleteUserResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgDeleteUserResponse.Merge(m, src)
+}
+func (m *MsgDeleteUserResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgDeleteUserResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgDeleteUserResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgDeleteUserResponse proto.InternalMessageInfo
+
 func init() {
 	proto.RegisterType((*MsgCreateUser)(nil), "org.org.MsgCreateUser")
 	proto.RegisterType((*MsgCreateUserResponse)(nil), "org.org.MsgCreateUserResponse")
+	proto.RegisterType((*MsgDeleteUser)(nil), "org.org.MsgDeleteUser")
+	proto.RegisterType((*MsgDeleteUserResponse)(nil), "org.org.MsgDeleteUserResponse")
 }
 
 func init() { proto.RegisterFile("org/tx.proto", fileDescriptor_1e0f841f6ce8f8ad) }
 
 var fileDescriptor_1e0f841f6ce8f8ad = []byte{
-	// 213 bytes of a gzipped FileDescriptorProto
+	// 253 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0xc9, 0x2f, 0x4a, 0xd7,
 	0x2f, 0xa9, 0xd0, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0xcf, 0x2f, 0x4a, 0xd7, 0xcb, 0x2f,
 	0x4a, 0x57, 0x0a, 0xe6, 0xe2, 0xf5, 0x2d, 0x4e, 0x77, 0x2e, 0x4a, 0x4d, 0x2c, 0x49, 0x0d, 0x2d,
@@ -147,13 +237,15 @@ var fileDescriptor_1e0f841f6ce8f8ad = []byte{
 	0x38, 0x83, 0x60, 0x5c, 0x21, 0x21, 0x2e, 0x96, 0xbc, 0xc4, 0xdc, 0x54, 0x09, 0x26, 0xb0, 0x30,
 	0x98, 0x2d, 0x24, 0xc2, 0xc5, 0x9a, 0x9a, 0x9b, 0x98, 0x99, 0x23, 0xc1, 0x0c, 0x16, 0x84, 0x70,
 	0x94, 0xf4, 0xb9, 0x44, 0x51, 0x0c, 0x0d, 0x4a, 0x2d, 0x2e, 0xc8, 0xcf, 0x2b, 0x4e, 0x15, 0x12,
-	0xe3, 0x62, 0x2b, 0x2d, 0x4e, 0x2d, 0xca, 0x4c, 0x01, 0x9b, 0xcd, 0x12, 0x04, 0xe5, 0x19, 0x79,
-	0x73, 0x31, 0xfb, 0x16, 0xa7, 0x0b, 0xb9, 0x70, 0x71, 0x21, 0xb9, 0x44, 0x4c, 0x0f, 0xea, 0x48,
-	0x3d, 0x14, 0xc3, 0xa4, 0xe4, 0xb0, 0x8b, 0xc3, 0x2c, 0x71, 0xd2, 0x3c, 0xf1, 0x48, 0x8e, 0xf1,
-	0xc2, 0x23, 0x39, 0xc6, 0x07, 0x8f, 0xe4, 0x18, 0x27, 0x3c, 0x96, 0x63, 0xb8, 0xf0, 0x58, 0x8e,
-	0xe1, 0xc6, 0x63, 0x39, 0x86, 0x28, 0x7e, 0x50, 0x18, 0x54, 0xe8, 0x83, 0x43, 0xa2, 0xb2, 0x20,
-	0xb5, 0x38, 0x89, 0x0d, 0x1c, 0x1a, 0xc6, 0x80, 0x00, 0x00, 0x00, 0xff, 0xff, 0x0e, 0xe8, 0x3d,
-	0xd2, 0x1d, 0x01, 0x00, 0x00,
+	0xe3, 0x62, 0x2b, 0x2d, 0x4e, 0x2d, 0xca, 0x4c, 0x01, 0x9b, 0xcd, 0x12, 0x04, 0xe5, 0x29, 0x39,
+	0x82, 0x5d, 0xe1, 0x92, 0x9a, 0x93, 0x4a, 0xd0, 0x15, 0x08, 0x23, 0x20, 0xee, 0x80, 0x19, 0x21,
+	0x0e, 0xb6, 0x13, 0x61, 0x04, 0xcc, 0x4e, 0xa3, 0x89, 0x8c, 0x5c, 0xcc, 0xbe, 0xc5, 0xe9, 0x42,
+	0x2e, 0x5c, 0x5c, 0x48, 0xde, 0x14, 0xd3, 0x83, 0x86, 0x80, 0x1e, 0x8a, 0x4b, 0xa5, 0xe4, 0xb0,
+	0x8b, 0xc3, 0x7d, 0xe0, 0xc2, 0xc5, 0x85, 0xe4, 0x4c, 0x14, 0x53, 0x10, 0xe2, 0xa8, 0xa6, 0x60,
+	0xba, 0xc9, 0x49, 0xf3, 0xc4, 0x23, 0x39, 0xc6, 0x0b, 0x8f, 0xe4, 0x18, 0x1f, 0x3c, 0x92, 0x63,
+	0x9c, 0xf0, 0x58, 0x8e, 0xe1, 0xc2, 0x63, 0x39, 0x86, 0x1b, 0x8f, 0xe5, 0x18, 0xa2, 0xf8, 0x41,
+	0xd1, 0x54, 0xa1, 0x0f, 0x8e, 0xac, 0xca, 0x82, 0xd4, 0xe2, 0x24, 0x36, 0x70, 0x84, 0x19, 0x03,
+	0x02, 0x00, 0x00, 0xff, 0xff, 0x10, 0xae, 0xb6, 0xb5, 0xc0, 0x01, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -169,6 +261,7 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type MsgClient interface {
 	CreateUser(ctx context.Context, in *MsgCreateUser, opts ...grpc.CallOption) (*MsgCreateUserResponse, error)
+	DeleteUser(ctx context.Context, in *MsgDeleteUser, opts ...grpc.CallOption) (*MsgDeleteUserResponse, error)
 }
 
 type msgClient struct {
@@ -188,9 +281,19 @@ func (c *msgClient) CreateUser(ctx context.Context, in *MsgCreateUser, opts ...g
 	return out, nil
 }
 
+func (c *msgClient) DeleteUser(ctx context.Context, in *MsgDeleteUser, opts ...grpc.CallOption) (*MsgDeleteUserResponse, error) {
+	out := new(MsgDeleteUserResponse)
+	err := c.cc.Invoke(ctx, "/org.org.Msg/DeleteUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
 	CreateUser(context.Context, *MsgCreateUser) (*MsgCreateUserResponse, error)
+	DeleteUser(context.Context, *MsgDeleteUser) (*MsgDeleteUserResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
@@ -199,6 +302,9 @@ type UnimplementedMsgServer struct {
 
 func (*UnimplementedMsgServer) CreateUser(ctx context.Context, req *MsgCreateUser) (*MsgCreateUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
+}
+func (*UnimplementedMsgServer) DeleteUser(ctx context.Context, req *MsgDeleteUser) (*MsgDeleteUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteUser not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -223,6 +329,24 @@ func _Msg_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(inte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_DeleteUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgDeleteUser)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).DeleteUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/org.org.Msg/DeleteUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).DeleteUser(ctx, req.(*MsgDeleteUser))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Msg_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "org.org.Msg",
 	HandlerType: (*MsgServer)(nil),
@@ -230,6 +354,10 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateUser",
 			Handler:    _Msg_CreateUser_Handler,
+		},
+		{
+			MethodName: "DeleteUser",
+			Handler:    _Msg_DeleteUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -308,6 +436,66 @@ func (m *MsgCreateUserResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *MsgDeleteUser) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgDeleteUser) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgDeleteUser) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Userid) > 0 {
+		i -= len(m.Userid)
+		copy(dAtA[i:], m.Userid)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Userid)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgDeleteUserResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgDeleteUserResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgDeleteUserResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	offset -= sovTx(v)
 	base := offset
@@ -349,6 +537,32 @@ func (m *MsgCreateUserResponse) Size() (n int) {
 	if m.Userid != 0 {
 		n += 1 + sovTx(uint64(m.Userid))
 	}
+	return n
+}
+
+func (m *MsgDeleteUser) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.Userid)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgDeleteUserResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
 	return n
 }
 
@@ -552,6 +766,170 @@ func (m *MsgCreateUserResponse) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgDeleteUser) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgDeleteUser: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgDeleteUser: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Userid", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Userid = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgDeleteUserResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgDeleteUserResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgDeleteUserResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
 		default:
 			iNdEx = preIndex
 			skippy, err := skipTx(dAtA[iNdEx:])

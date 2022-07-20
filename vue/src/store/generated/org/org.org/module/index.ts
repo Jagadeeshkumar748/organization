@@ -5,10 +5,12 @@ import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
 import { MsgCreateUser } from "./types/org/tx";
+import { MsgDeleteUser } from "./types/org/tx";
 
 
 const types = [
   ["/org.org.MsgCreateUser", MsgCreateUser],
+  ["/org.org.MsgDeleteUser", MsgDeleteUser],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -42,6 +44,7 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
     msgCreateUser: (data: MsgCreateUser): EncodeObject => ({ typeUrl: "/org.org.MsgCreateUser", value: MsgCreateUser.fromPartial( data ) }),
+    msgDeleteUser: (data: MsgDeleteUser): EncodeObject => ({ typeUrl: "/org.org.MsgDeleteUser", value: MsgDeleteUser.fromPartial( data ) }),
     
   };
 };

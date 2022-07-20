@@ -8,6 +8,7 @@ option go_package = "org/x/org/types";
 // Msg defines the Msg service.
 service Msg {
       rpc CreateUser(MsgCreateUser) returns (MsgCreateUserResponse);
+  rpc DeleteUser(MsgDeleteUser) returns (MsgDeleteUserResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -19,6 +20,14 @@ message MsgCreateUser {
 
 message MsgCreateUserResponse {
   uint64 userid = 1;
+}
+
+message MsgDeleteUser {
+  string creator = 1;
+  string userid = 2;
+}
+
+message MsgDeleteUserResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message

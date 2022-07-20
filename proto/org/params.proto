@@ -1,0 +1,12 @@
+syntax = "proto3";
+package org.org;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "org/x/org/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (gogoproto.goproto_stringer) = false;
+  
+}

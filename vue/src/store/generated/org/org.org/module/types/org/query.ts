@@ -27,6 +27,18 @@ export interface QueryUsersResponse {
   pagination: PageResponse | undefined;
 }
 
+export interface QueryOneUserRequest {
+  userid: string;
+}
+
+export interface QueryOneUserResponse {
+  /**
+   * string name = 1;
+   * string email = 2;
+   */
+  User: User | undefined;
+}
+
 const baseQueryParamsRequest: object = {};
 
 export const QueryParamsRequest = {
@@ -270,12 +282,131 @@ export const QueryUsersResponse = {
   },
 };
 
+const baseQueryOneUserRequest: object = { userid: "" };
+
+export const QueryOneUserRequest = {
+  encode(
+    message: QueryOneUserRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.userid !== "") {
+      writer.uint32(10).string(message.userid);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryOneUserRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryOneUserRequest } as QueryOneUserRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.userid = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryOneUserRequest {
+    const message = { ...baseQueryOneUserRequest } as QueryOneUserRequest;
+    if (object.userid !== undefined && object.userid !== null) {
+      message.userid = String(object.userid);
+    } else {
+      message.userid = "";
+    }
+    return message;
+  },
+
+  toJSON(message: QueryOneUserRequest): unknown {
+    const obj: any = {};
+    message.userid !== undefined && (obj.userid = message.userid);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<QueryOneUserRequest>): QueryOneUserRequest {
+    const message = { ...baseQueryOneUserRequest } as QueryOneUserRequest;
+    if (object.userid !== undefined && object.userid !== null) {
+      message.userid = object.userid;
+    } else {
+      message.userid = "";
+    }
+    return message;
+  },
+};
+
+const baseQueryOneUserResponse: object = {};
+
+export const QueryOneUserResponse = {
+  encode(
+    message: QueryOneUserResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.User !== undefined) {
+      User.encode(message.User, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryOneUserResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryOneUserResponse } as QueryOneUserResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.User = User.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryOneUserResponse {
+    const message = { ...baseQueryOneUserResponse } as QueryOneUserResponse;
+    if (object.User !== undefined && object.User !== null) {
+      message.User = User.fromJSON(object.User);
+    } else {
+      message.User = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryOneUserResponse): unknown {
+    const obj: any = {};
+    message.User !== undefined &&
+      (obj.User = message.User ? User.toJSON(message.User) : undefined);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<QueryOneUserResponse>): QueryOneUserResponse {
+    const message = { ...baseQueryOneUserResponse } as QueryOneUserResponse;
+    if (object.User !== undefined && object.User !== null) {
+      message.User = User.fromPartial(object.User);
+    } else {
+      message.User = undefined;
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse>;
   /** Queries a list of Users items. */
   Users(request: QueryUsersRequest): Promise<QueryUsersResponse>;
+  /** Queries a list of OneUser items. */
+  OneUser(request: QueryOneUserRequest): Promise<QueryOneUserResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -293,6 +424,14 @@ export class QueryClientImpl implements Query {
     const data = QueryUsersRequest.encode(request).finish();
     const promise = this.rpc.request("org.org.Query", "Users", data);
     return promise.then((data) => QueryUsersResponse.decode(new Reader(data)));
+  }
+
+  OneUser(request: QueryOneUserRequest): Promise<QueryOneUserResponse> {
+    const data = QueryOneUserRequest.encode(request).finish();
+    const promise = this.rpc.request("org.org.Query", "OneUser", data);
+    return promise.then((data) =>
+      QueryOneUserResponse.decode(new Reader(data))
+    );
   }
 }
 

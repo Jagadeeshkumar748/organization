@@ -23,6 +23,11 @@ service Query {
 		option (google.api.http).get = "/org/org/users";
 	}
 
+// Queries a list of OneUser items.
+	rpc OneUser(QueryOneUserRequest) returns (QueryOneUserResponse) {
+		option (google.api.http).get = "/org/org/one_user/{userid}";
+	}
+
 // this line is used by starport scaffolding # 2
 }
 
@@ -44,6 +49,16 @@ message QueryUsersResponse {
   repeated User User = 1;
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 
+}
+
+message QueryOneUserRequest {
+  string userid = 1;
+}
+
+message QueryOneUserResponse {
+  // string name = 1;
+  // string email = 2;
+  User User = 1;
 }
 
 // this line is used by starport scaffolding # 3

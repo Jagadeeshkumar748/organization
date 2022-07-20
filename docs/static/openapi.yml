@@ -29812,6 +29812,9 @@ paths:
             type: object
             properties:
               User:
+                title: |-
+                  string name = 1;
+                  string email = 2;
                 type: object
                 properties:
                   creator:
@@ -29846,7 +29849,6 @@ paths:
           in: path
           required: true
           type: string
-          format: uint64
       tags:
         - Query
   /org/org/params:
@@ -51733,6 +51735,9 @@ definitions:
     type: object
     properties:
       User:
+        title: |-
+          string name = 1;
+          string email = 2;
         type: object
         properties:
           creator:

@@ -19,6 +19,10 @@ export interface OrgMsgCreateUserResponse {
  */
 export type OrgParams = object;
 
+export interface OrgQueryOneUserResponse {
+  User?: OrgUser;
+}
+
 /**
  * QueryParamsResponse is response type for the Query/Params RPC method.
  */
@@ -321,6 +325,22 @@ export class HttpClient<SecurityDataType = unknown> {
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryOneUser
+   * @summary Queries a list of OneUser items.
+   * @request GET:/org/org/one_user/{userid}
+   */
+  queryOneUser = (userid: string, params: RequestParams = {}) =>
+    this.request<OrgQueryOneUserResponse, RpcStatus>({
+      path: `/org/org/one_user/${userid}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
   /**
    * No description
    *

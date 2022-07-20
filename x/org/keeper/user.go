@@ -2,7 +2,9 @@ package keeper
 
 import (
 	"encoding/binary"
+	"fmt"
 	"org/x/org/types"
+	"strconv"
 
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -25,6 +27,25 @@ func (k Keeper) AddUser(ctx sdk.Context, user types.User) uint64 {
 	// Update the post count
 	k.SetUserCount(ctx, count+1)
 	return count
+}
+
+func (k Keeper) GetUser(ctx sdk.Context, userid string) (types.User, error) {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), []byte(types.UserKey))
+
+	byteKey := make([]byte, 8)
+	userId, _ := strconv.ParseUint(userid, 0, 64)
+	binary.BigEndian.PutUint64(byteKey, userId)
+
+	bz := store.Get(byteKey)
+
+	var user types.User
+
+	if bz == nil {
+		return types.User{}, fmt.Errorf("user not found")
+	}
+
+	k.cdc.Unmarshal(bz, &user)
+	return user, nil
 }
 
 func (k Keeper) GetUserCount(ctx sdk.Context) uint64 {

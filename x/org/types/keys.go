@@ -15,6 +15,10 @@ const (
 
 	// MemStoreKey defines the in-memory store key
 	MemStoreKey = "mem_org"
+
+	// Keep track of the index of posts
+	UserKey      = "User-value-"
+	UserCountKey = "User-count-"
 )
 
 func KeyPrefix(p string) []byte {

@@ -1,0 +1,10 @@
+syntax = "proto3";
+package org.org;
+option go_package = "org/x/org/types";
+
+message User {
+  string creator = 1;
+  string name = 3; 
+  string email = 4; 
+  uint64 userid = 2;
+}

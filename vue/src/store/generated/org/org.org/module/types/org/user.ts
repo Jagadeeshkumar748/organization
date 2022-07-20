@@ -1,50 +1,53 @@
 /* eslint-disable */
-import { Reader, util, configure, Writer } from "protobufjs/minimal";
 import * as Long from "long";
+import { util, configure, Writer, Reader } from "protobufjs/minimal";
 
 export const protobufPackage = "org.org";
 
-export interface MsgCreateUser {
+export interface User {
   creator: string;
   name: string;
   email: string;
-}
-
-export interface MsgCreateUserResponse {
   userid: number;
 }
 
-const baseMsgCreateUser: object = { creator: "", name: "", email: "" };
+const baseUser: object = { creator: "", name: "", email: "", userid: 0 };
 
-export const MsgCreateUser = {
-  encode(message: MsgCreateUser, writer: Writer = Writer.create()): Writer {
+export const User = {
+  encode(message: User, writer: Writer = Writer.create()): Writer {
     if (message.creator !== "") {
       writer.uint32(10).string(message.creator);
     }
     if (message.name !== "") {
-      writer.uint32(18).string(message.name);
+      writer.uint32(26).string(message.name);
     }
     if (message.email !== "") {
-      writer.uint32(26).string(message.email);
+      writer.uint32(34).string(message.email);
+    }
+    if (message.userid !== 0) {
+      writer.uint32(16).uint64(message.userid);
     }
     return writer;
   },
 
-  decode(input: Reader | Uint8Array, length?: number): MsgCreateUser {
+  decode(input: Reader | Uint8Array, length?: number): User {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = { ...baseMsgCreateUser } as MsgCreateUser;
+    const message = { ...baseUser } as User;
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
           message.creator = reader.string();
           break;
-        case 2:
+        case 3:
           message.name = reader.string();
           break;
-        case 3:
+        case 4:
           message.email = reader.string();
+          break;
+        case 2:
+          message.userid = longToNumber(reader.uint64() as Long);
           break;
         default:
           reader.skipType(tag & 7);
@@ -54,8 +57,8 @@ export const MsgCreateUser = {
     return message;
   },
 
-  fromJSON(object: any): MsgCreateUser {
-    const message = { ...baseMsgCreateUser } as MsgCreateUser;
+  fromJSON(object: any): User {
+    const message = { ...baseUser } as User;
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = String(object.creator);
     } else {
@@ -71,19 +74,25 @@ export const MsgCreateUser = {
     } else {
       message.email = "";
     }
+    if (object.userid !== undefined && object.userid !== null) {
+      message.userid = Number(object.userid);
+    } else {
+      message.userid = 0;
+    }
     return message;
   },
 
-  toJSON(message: MsgCreateUser): unknown {
+  toJSON(message: User): unknown {
     const obj: any = {};
     message.creator !== undefined && (obj.creator = message.creator);
     message.name !== undefined && (obj.name = message.name);
     message.email !== undefined && (obj.email = message.email);
+    message.userid !== undefined && (obj.userid = message.userid);
     return obj;
   },
 
-  fromPartial(object: DeepPartial<MsgCreateUser>): MsgCreateUser {
-    const message = { ...baseMsgCreateUser } as MsgCreateUser;
+  fromPartial(object: DeepPartial<User>): User {
+    const message = { ...baseUser } as User;
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = object.creator;
     } else {
@@ -99,61 +108,6 @@ export const MsgCreateUser = {
     } else {
       message.email = "";
     }
-    return message;
-  },
-};
-
-const baseMsgCreateUserResponse: object = { userid: 0 };
-
-export const MsgCreateUserResponse = {
-  encode(
-    message: MsgCreateUserResponse,
-    writer: Writer = Writer.create()
-  ): Writer {
-    if (message.userid !== 0) {
-      writer.uint32(8).uint64(message.userid);
-    }
-    return writer;
-  },
-
-  decode(input: Reader | Uint8Array, length?: number): MsgCreateUserResponse {
-    const reader = input instanceof Uint8Array ? new Reader(input) : input;
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = { ...baseMsgCreateUserResponse } as MsgCreateUserResponse;
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.userid = longToNumber(reader.uint64() as Long);
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-    return message;
-  },
-
-  fromJSON(object: any): MsgCreateUserResponse {
-    const message = { ...baseMsgCreateUserResponse } as MsgCreateUserResponse;
-    if (object.userid !== undefined && object.userid !== null) {
-      message.userid = Number(object.userid);
-    } else {
-      message.userid = 0;
-    }
-    return message;
-  },
-
-  toJSON(message: MsgCreateUserResponse): unknown {
-    const obj: any = {};
-    message.userid !== undefined && (obj.userid = message.userid);
-    return obj;
-  },
-
-  fromPartial(
-    object: DeepPartial<MsgCreateUserResponse>
-  ): MsgCreateUserResponse {
-    const message = { ...baseMsgCreateUserResponse } as MsgCreateUserResponse;
     if (object.userid !== undefined && object.userid !== null) {
       message.userid = object.userid;
     } else {
@@ -162,34 +116,6 @@ export const MsgCreateUserResponse = {
     return message;
   },
 };
-
-/** Msg defines the Msg service. */
-export interface Msg {
-  /** this line is used by starport scaffolding # proto/tx/rpc */
-  CreateUser(request: MsgCreateUser): Promise<MsgCreateUserResponse>;
-}
-
-export class MsgClientImpl implements Msg {
-  private readonly rpc: Rpc;
-  constructor(rpc: Rpc) {
-    this.rpc = rpc;
-  }
-  CreateUser(request: MsgCreateUser): Promise<MsgCreateUserResponse> {
-    const data = MsgCreateUser.encode(request).finish();
-    const promise = this.rpc.request("org.org.Msg", "CreateUser", data);
-    return promise.then((data) =>
-      MsgCreateUserResponse.decode(new Reader(data))
-    );
-  }
-}
-
-interface Rpc {
-  request(
-    service: string,
-    method: string,
-    data: Uint8Array
-  ): Promise<Uint8Array>;
-}
 
 declare var self: any | undefined;
 declare var window: any | undefined;
